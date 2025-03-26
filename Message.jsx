@@ -1,73 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Carousel from './Carousel';
-import { ImageCard } from './ImageCard';
-import { ArrowLeft } from './icons';
-import { useNavigate } from 'react-router-dom';
-import config from './config'; // Import config file
-
-// Dynamically import only the required message images
-const imageFiles = import.meta.glob('../assets/MessageImage*.png');
-
-function Message() {
-  const navigate = useNavigate();
-  const [pictures, setPictures] = useState([]);
-
-  useEffect(() => {
-    const loadImages = async () => {
-      const loadedImages = await Promise.all(
-        Object.keys(imageFiles)
-          .sort((a, b) => {
-            // Extract the number from filenames (e.g., MessageImage1.png -> 1)
-            const aNum = parseInt(a.match(/MessageImage(\d+)\.png/)?.[1] || 0, 10);
-            const bNum = parseInt(b.match(/MessageImage(\d+)\.png/)?.[1] || 0, 10);
-            return aNum - bNum; // Ensure they are sorted correctly
-          })
-          .slice(0, config.messageGallery.length) // Only take as many images as needed
-          .map(async (path, index) => {
-            const imageModule = await imageFiles[path]();
-            return {
-              Image: imageModule.default,
-              title: config.messageGallery[index]?.title || 'No Title',
-              description: config.messageGallery[index]?.description || 'No Description',
-            };
-          })
-      );
-
-      setPictures(loadedImages);
-    };
-
-    loadImages();
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-black/20 flex flex-col items-center justify-center">
-      <div className="w-[90%] max-w-[400px]">
-        <h1 className="text-2xl sm:text-2xl font-bold -mb-4 drop-shadow-lg text-white text-center">
-          {config.messageTitle}
-        </h1>
-        <Carousel>
-          {pictures.map(({ Image, title, description }, index) => (
-            <ImageCard
-              key={index}
-              imageUrl={Image}
-              altText={`Message image ${index + 1}`}
-              title={title}
-              description={description}
-            />
-          ))}
-        </Carousel>
-
-        <div className="flex justify-center w-full mt-12">
-          <button
-            className="px-4 py-2 flex justify-center items-center bg-white/20 gap-2 hover:bg-white/30 backdrop-blur-sm text-white text-sm border border-white/50 rounded-lg"
-            onClick={() => navigate(config.recapRedirectPath)}
-          >
-            <ArrowLeft /> {config.previousPageText}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+const Message = ({color}) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill={color} width={28} height={28}><path d="M160 368c26.5 0 48 21.5 48 48l0 16 72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6L448 368c8.8 0 16-7.2 16-16l0-288c0-8.8-7.2-16-16-16L64 48c-8.8 0-16 7.2-16 16l0 288c0 8.8 7.2 16 16 16l96 0zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3l0-21.3 0-6.4 0-.3 0-4 0-48-48 0-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L448 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-138.7 0L208 492z"/></svg>
+    );
 }
 
 export default Message;

@@ -1,23 +1,16 @@
-import Passcode from './Passcode';
-import Question from './Question';
-import Timer from './Timer';
-import Recap from './Recap';
-import Letter from './Letter';
-import Closing from './Closing';
-import Music from './Music';
-import Picture from './Picture';
-import Message from './Message';
-import Carousel from './Carousel';
-
+import Google from './Google';
+import ArrowRight from './ArrowRight'
+import ArrowLeft from './ArrowLeft'
+import Image from './Image'
+import Message from './Message'
+import Music from './Music'
+import Heart from './Heart'
 export {
-  Passcode,
-  Question,
-  Timer,
-  Recap,
-  Letter,
-  Closing,
-  Picture,
+  Google,
+  ArrowRight,
+  Heart,
   Music,
-  Carousel,
-  Message
+  Message,
+  Image,
+  ArrowLeft
 }
